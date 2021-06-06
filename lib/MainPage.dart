@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobx_demo/ListItems.dart';
-import 'package:mobx_demo/base_widget.dart';
+import 'package:mobx_demo/base/base_widget.dart';
 import 'package:mobx_demo/components/select_component.dart';
 import 'package:mobx_demo/counter.dart';
 import 'package:mobx_demo/select_item.dart';

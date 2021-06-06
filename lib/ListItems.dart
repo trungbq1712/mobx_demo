@@ -26,7 +26,9 @@ class ListItems extends BaseWidget {
       body: _body(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          var item = Item(() {});
+          var item = Item(() {})
+          ..text = "added text"
+          ..value = "added value";
           model.add(item);
         },
         tooltip: 'Add',
@@ -50,6 +52,7 @@ class ListItems extends BaseWidget {
         return Stack(
           children: [
             ListView.builder(
+              cacheExtent: 20,
               itemBuilder: (c, idx) {
                 var item = model.items[idx];
                 return ItemTemlate(item, () => model.select(item));

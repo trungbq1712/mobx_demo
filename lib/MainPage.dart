@@ -78,9 +78,8 @@ class MainPage extends StatelessWidget {
 
   Widget _buildSelect() {
     return SelectComponent(new ObservableList.of(
-      List.generate(5, (index) => new SelectItem(() {}, index, text: "item $index" ))
-    ),
-    onItemSelected: (item) => counter.choose(item),
+      List.generate(5, (index) => new SelectItem(() {}, index, text: "item $index" ))),
+      onItemSelected: (item) => counter.choose(item),
     );
   }
 }

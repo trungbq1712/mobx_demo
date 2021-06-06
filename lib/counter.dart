@@ -1,8 +1,13 @@
 import 'package:mobx/mobx.dart';
+import 'package:mobx_demo/select_item.dart';
 
 part 'counter.g.dart';
 
-class Counter = CounterBase with _$Counter;
+class Counter extends CounterBase with _$Counter {
+  void choose(SelectItem item) {
+    print("Select item : ${item.text}");
+  }
+}
 
 abstract class CounterBase with Store {
   @observable

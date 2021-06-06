@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:mobx_demo/ListItems.dart';
+import 'package:mobx_demo/components/select_component.dart';
 import 'package:mobx_demo/counter.dart';
+import 'package:mobx_demo/select_item.dart';
 
 class MainPage extends StatelessWidget {
 
   final counter = Counter();
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,6 +20,7 @@ class MainPage extends StatelessWidget {
           children: <Widget>[
             _text(),
             _number(),
+            _buildSelect(),
             IconButton(icon: Icon(
                 Icons.navigate_next
               ), 
@@ -38,7 +42,6 @@ class MainPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: counter.increment,
-        
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
@@ -68,6 +71,16 @@ class MainPage extends StatelessWidget {
           '${counter.value}'
         );
       },
+    );
+  }
+
+  SelectItem? item;
+
+  Widget _buildSelect() {
+    return SelectComponent(new ObservableList.of(
+      List.generate(5, (index) => new SelectItem(() {}, index, text: "item $index" ))
+    ),
+    onItemSelected: (item) => counter.choose(item),
     );
   }
 }

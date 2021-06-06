@@ -1,5 +1,6 @@
+
 import 'package:mobx/mobx.dart';
-import 'package:mobx_demo/base_model.dart';
+import 'package:mobx_demo/base/base_model.dart';
 import 'package:mobx_demo/item.dart';
 
 part 'item_source.g.dart';
@@ -30,6 +31,7 @@ class ItemSource extends ItemSourceBase with _$ItemSource {
   void initData(data) {
     _init();
   }
+
 }
 
 abstract class ItemSourceBase extends BaseModel with Store {
@@ -56,7 +58,7 @@ abstract class ItemSourceBase extends BaseModel with Store {
   }
 
   @computed
-  int get totalItems { return items.length; }
+  int get totalItems => items.length;
 }
 
 

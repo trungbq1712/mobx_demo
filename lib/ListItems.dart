@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx_demo/base_widget.dart';
+import 'package:mobx_demo/base/base_widget.dart';
 import 'package:mobx_demo/item.dart';
 import 'package:mobx_demo/item_source.dart';
 import 'package:mobx_demo/item_template.dart';
 
-class ListItems extends BaseWidget {
+class ListItems extends BaseWidget<ItemSource> {
   
-  final model = ItemSource();
+  @override
+  ItemSource get model => _model;
+  final ItemSource _model = ItemSource();
 
   @override
   void init(dynamic data) {
     model.initData(null);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return super.build(context);
   }
 
   @override
@@ -46,26 +43,35 @@ class ListItems extends BaseWidget {
   }
 
   Widget _body() {
-    print("Build list view");
-    return Observer(
-      builder: (c) {
-        return Stack(
-          children: [
-            ListView.builder(
-              cacheExtent: 20,
-              itemBuilder: (c, idx) {
-                var item = model.items[idx];
-                return ItemTemlate(item, () => model.select(item));
-              },
-              itemCount: model.totalItems
-            ),
-            Visibility(
-              visible: model.isBusy,
-              child: CircularProgressIndicator())
-          ],
-        );
-      }
+    print("Build body");
+    return Stack(
+      children: [
+        collectionItems(),
+        _loading()
+      ],
     );
+  }
+
+  Widget collectionItems() {
+    return Observer(builder: (c) {
+      print("Build list view");
+      return ListView.builder(
+        cacheExtent: 20,
+        itemBuilder: (c, idx) {
+          var item = model.items[idx];
+          return ItemTemlate(item, () => model.select(item));
+        },
+        itemCount: model.totalItems
+      ); }
+    );
+  }
+
+  Widget _loading() {
+    return Observer(builder: (c){
+      return Visibility(
+        visible: model.isBusy,
+        child: CircularProgressIndicator());
+    });
   }
 
 }

@@ -2,51 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobx_demo/ListItems.dart';
+import 'package:mobx_demo/base_widget.dart';
 import 'package:mobx_demo/components/select_component.dart';
 import 'package:mobx_demo/counter.dart';
 import 'package:mobx_demo/select_item.dart';
 
-class MainPage extends StatelessWidget {
-
-  final counter = Counter();
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar() as PreferredSizeWidget,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _text(),
-            _number(),
-            _buildSelect(),
-            IconButton(icon: Icon(
-                Icons.navigate_next
-              ), 
-            onPressed: () {
-              Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ListItems(),
-                settings: RouteSettings(
-                  arguments: {
-                    "text": counter.value
-                  }
-                )
-              )
-            );
-            })
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: counter.increment,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-    );
-  }
+class MainPage extends BaseWidget<Counter> {
 
   Widget _appBar() {
     print("Build appbar");
@@ -68,7 +29,7 @@ class MainPage extends StatelessWidget {
       builder: (_) {
         print("Build number inside");
         return  Text(
-          '${counter.value}'
+          '${model.value}'
         );
       },
     );
@@ -79,7 +40,43 @@ class MainPage extends StatelessWidget {
   Widget _buildSelect() {
     return SelectComponent(new ObservableList.of(
       List.generate(5, (index) => new SelectItem(() {}, index, text: "item $index" ))),
-      onItemSelected: (item) => counter.choose(item),
+      onItemSelected: (item) => model.choose(item),
     );
   }
+
+  @override
+  Widget createView() {
+    return Scaffold(
+      appBar: _appBar() as PreferredSizeWidget,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _text(),
+            _number(),
+            _buildSelect(),
+            IconButton(icon: Icon(
+                Icons.navigate_next
+              ), 
+            onPressed: () {
+              model.navigate();
+            })
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: model.increment,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  @override
+  void init(data) {
+  }
+
+  @override
+  Counter get model => _model;
+  final Counter _model = Counter();
 }

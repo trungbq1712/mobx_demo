@@ -6,6 +6,7 @@ import 'package:mobx_demo/base/base_widget.dart';
 import 'package:mobx_demo/components/select_component.dart';
 import 'package:mobx_demo/counter.dart';
 import 'package:mobx_demo/select_item.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends BaseWidget<Counter> {
 
@@ -46,6 +47,7 @@ class MainPage extends BaseWidget<Counter> {
 
   @override
   Widget createView() {
+    
     return Scaffold(
       appBar: _appBar() as PreferredSizeWidget,
       body: Center(
